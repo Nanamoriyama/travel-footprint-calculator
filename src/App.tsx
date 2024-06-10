@@ -1,21 +1,26 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Login from "./components/Login";
-import Logout from "./components/Logout";
+import { HomeLayout, Landing, Error } from "./pages";
+
+import SinglePageError from "./pages/SinglePageError";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomeLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        index: true,
+        element: <Landing />,
+        errorElement: <SinglePageError />,
+      },
+    ],
+  },
+]);
 
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-
-        <Route path="login/" element={<Login />}></Route>
-        <Route path="/logout" element={<Logout />}></Route>
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 };
-
 export default App;
