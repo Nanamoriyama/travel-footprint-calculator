@@ -116,10 +116,6 @@ h5 {
   letter-spacing: var(--letterSpacing);
 }
 
-h1 {
-  font-size: clamp(2rem, 5vw, 5rem); /* Large heading */
-}
-
 h2 {
   font-size: clamp(1.5rem, 3vw, 3rem); /* Medium heading */
 }
@@ -286,10 +282,6 @@ ul {
 
 /* title */
 
-.title {
-  text-align: center;
-}
-
 .title-underline {
   background: var(--primary-500);
   width: 7rem;
@@ -311,7 +303,7 @@ Toggle Container
 */
 
 .toggle-container {
-  padding: 0.5rem 0;
+  padding: 0;
   margin: 0 auto;
   display: flex;
   justify-content: end;
@@ -320,8 +312,8 @@ Toggle Container
 .dark-toggle {
   background: transparent;
   border-color: transparent;
-  width: 4rem;
-  height: 2rem;
+  width: 3rem;
+  height: 1rem;
   display: grid;
   place-items: center;
   cursor: pointer;

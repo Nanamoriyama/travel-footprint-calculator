@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 import { data, TravelData } from "../components/data";
+import { useNavigate } from "react-router-dom";
 
 function Landing() {
   const [start, setStart] = useState("");
   const [destination, setDestination] = useState("");
-  const [result, setResult] = useState<TravelData | null>(null);
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     const found = data.find(
       (item) =>
         item["Starting point"] === start && item.Destination === destination
     );
-    setResult(found || null);
+    navigate("/results", { state: { result: found || null } });
   };
 
   return (
     <div className="">
       <section className="">
         <div className="my-8">
-          <h1 className="my-8">Travel CO2 Calculator</h1>
-          <div className="flex flex-row justify-between gap-2">
+          <div className="flex flex-row justify-between gap-16">
             <div className="flex flex-col">
               <label className="mb-2">
-                START
+                From
                 <div>
                   <input
                     type="text"
@@ -31,7 +31,6 @@ function Landing() {
                     list="starting-points"
                     className="mt-1 p-1 w-40 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-blue-500 appearance-none text-slate-600"
                   />
-
                   <datalist id="starting-points">
                     {[
                       ...new Set(data.map((item) => item["Starting point"])),
@@ -44,7 +43,7 @@ function Landing() {
             </div>
             <div>
               <label>
-                DESTINATION
+                To
                 <div>
                   <input
                     type="text"
@@ -64,36 +63,18 @@ function Landing() {
               </label>
             </div>
           </div>
-          <button
-            onClick={handleSearch}
-            className="my-10 border border-solid p-4 rounded hover:border-red-200"
-          >
-            Search
-          </button>
-
-          {result && (
-            <div>
-              <h2 className="font-extrabold my-8">Results</h2>
-              <div className="flex justify-between gap-2">
-                <div className="border border-stone-500 rounded-lg p-4">
-                  Train
-                  <br /> {result.Train} kg CO2
-                </div>
-                <div className="border border-stone-500 rounded-lg p-4">
-                  Car
-                  <br />
-                  {result.Car} kg CO2
-                </div>
-                <div className="border border-stone-500 rounded-lg p-4">
-                  Plane
-                  <br /> {result.Plane} kg CO2
-                </div>
-              </div>
-            </div>
-          )}
+          <div className="flex justify-center">
+            <button
+              onClick={handleSearch}
+              className="my-10 border  border-stone-400 border-bold p-4 rounded hover:border-red-400 items-center"
+            >
+              Calculate
+            </button>
+          </div>
         </div>
       </section>
     </div>
   );
 }
+
 export default Landing;

@@ -17,10 +17,9 @@ const AppContext = createContext<GlobalContextType | undefined>(undefined);
 
 const getInitialDarkMode = () => {
   const prefersDarkMode = window.matchMedia(
-    "(prefers-color-scheme:dark)"
+    "(prefers-color-scheme: dark)"
   ).matches;
   const storedDarkMode = localStorage.getItem("darkTheme") === "true";
-
   return storedDarkMode || prefersDarkMode;
 };
 
@@ -46,6 +45,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     </AppContext.Provider>
   );
 };
+
 export const useGlobalContext = () => {
   const context = useContext(AppContext);
   if (context === undefined) {
