@@ -1,9 +1,8 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { HomeLayout, Landing, Error, Result } from "./pages";
+import { HomeLayout, Landing, Error, Result, Impact, Balance } from "./pages";
 import SinglePageError from "./pages/SinglePageError";
-import Navbar from "./components/Navbar";
 
 const router = createBrowserRouter([
   {
@@ -21,19 +20,22 @@ const router = createBrowserRouter([
         element: <Result />,
         errorElement: <SinglePageError />,
       },
+      {
+        path: "impact",
+        element: <Impact />,
+        errorElement: <SinglePageError />,
+      },
+      {
+        path: "balance",
+        element: <Balance />,
+        errorElement: <SinglePageError />,
+      },
     ],
   },
 ]);
 
 const App = () => {
-  return (
-    <>
-      <Navbar />
-      <div className="flex justify-center items-start min-h-screen mt-60">
-        <RouterProvider router={router} />
-      </div>
-    </>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
