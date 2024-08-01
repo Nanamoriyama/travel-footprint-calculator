@@ -4,20 +4,23 @@ import Navbar from "../components/Navbar";
 const HomeLayout = () => {
   const navigation = useNavigation();
 
+  // Check if the page is loading based on the navigation state
   const isPageLoading = navigation.state === "loading";
   const value = "some value";
+
   return (
     <>
-      <div className="flex justify-end">
-        <Navbar />
-      </div>
-      <div className="flex justify-center mt-2">
-        <h1 className="mb-10 mt-20">Travel Footprint Calculator</h1>
-      </div>
-      <section className="mt-4 animate-fadeIn">
-        {isPageLoading ? <div className="" /> : <Outlet context={{ value }} />}
+      <Navbar />
+
+      <section className="animate-fadeIn">
+        {isPageLoading ? (
+          <div>Loading...</div> // Provide some loading indicator or message
+        ) : (
+          <Outlet context={{ value }} />
+        )}
       </section>
     </>
   );
 };
+
 export default HomeLayout;

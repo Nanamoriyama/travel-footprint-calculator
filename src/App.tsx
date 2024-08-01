@@ -1,4 +1,4 @@
-import "./App.css";
+import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { HomeLayout, Landing, Error, Result, Impact, Balance } from "./pages";

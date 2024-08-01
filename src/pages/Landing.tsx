@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { data } from "../components/data";
 import { useNavigate } from "react-router-dom";
 
@@ -17,65 +17,90 @@ function Landing() {
   const [start, setStart] = useState<string>("");
   const [destination, setDestination] = useState<string>("");
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+  const [navigateTriggered, setNavigateTriggered] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const handleSearch = () => {
-    const found = data.find(
-      (item) =>
-        item["Starting point"] === start && item.Destination === destination
-    );
+  useEffect(() => {
+    if (isTransitioning && !navigateTriggered) {
+      const timer = setTimeout(() => {
+        let found = data.find(
+          (item) =>
+            item["Starting point"] === start && item.Destination === destination
+        );
 
+        if (!found) {
+          found = data.find(
+            (item) =>
+              item["Starting point"] === destination &&
+              item.Destination === start
+          );
+        }
+
+        if (found) {
+          const travelData: TravelData = {
+            "Starting point": found["Starting point"],
+            Destination: found.Destination,
+            Train: Number(found.Train),
+            Car: Number(found.Car),
+            Plane: Number(found.Plane),
+            "Driving distance (km)": Number(found["Driving distance (km)"]),
+            "Flying distance (km)": Number(found["Flying distance (km)"]),
+            "Train distance (km)": Number(found["Train distance (km)"]),
+          };
+          setNavigateTriggered(true); // 防止再レンダリング
+          navigate("/results", {
+            state: { result: travelData },
+          });
+        } else {
+          setNavigateTriggered(true); // 防止再レンダリング
+          navigate("/results", {
+            state: { result: null },
+          });
+        }
+      }, 1500); // アニメーションの時間
+
+      return () => clearTimeout(timer);
+    }
+  }, [isTransitioning, start, destination, navigate, navigateTriggered]);
+
+  const handleSearch = () => {
     setIsTransitioning(true);
-    setTimeout(() => {
-      if (found) {
-        const travelData: TravelData = {
-          "Starting point": found["Starting point"],
-          Destination: found.Destination,
-          Train: Number(found.Train),
-          Car: Number(found.Car),
-          Plane: Number(found.Plane),
-          "Driving distance (km)": Number(found["Driving distance (km)"]),
-          "Flying distance (km)": Number(found["Flying distance (km)"]),
-          "Train distance (km)": Number(found["Train distance (km)"]),
-        };
-        navigate("/results", {
-          state: { result: travelData },
-        });
-      } else {
-        navigate("/results", {
-          state: { result: null },
-        });
-      }
-    }, 1500); // Match the animation duration
   };
 
   return (
     <div
       className={`transition-transform ${
         isTransitioning ? "animate-pageClose" : "animate-pageOpen"
-      }`}
+      } flex justify-center min-h-screen`}
     >
-      <section className="">
-        <div className="">
-          <div className="flex flex-row justify-between gap-1">
+      <section
+        className={`w-full max-w-md ${navigateTriggered ? "hidden" : ""}`}
+      >
+        <div>
+          <div className="flex justify-center text-2xl font-extralight pb-4 mr-2 ml-2 mb-8">
+            Please select the locations
+          </div>
+          <div className="flex flex-row justify-between gap-1 md:gap-4">
             <div className="flex flex-col">
               <label className="mb-2">
                 From
                 <div>
-                  <input
-                    type="text"
+                  <select
                     value={start}
                     onChange={(e) => setStart(e.target.value)}
-                    list="starting-points"
-                    className="mt-1 p-1 w-40 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-blue-500 appearance-none text-slate-600"
-                  />
-                  <datalist id="starting-points">
+                    className="mt-1 p-1 w-40 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-blue-500 text-slate-600"
+                  >
+                    <option value="" disabled>
+                      Start
+                    </option>
                     {[
                       ...new Set(data.map((item) => item["Starting point"])),
                     ].map((point, index) => (
-                      <option key={index} value={point} />
+                      <option key={index} value={point}>
+                        {point}
+                      </option>
                     ))}
-                  </datalist>
+                  </select>
                 </div>
               </label>
             </div>
@@ -83,20 +108,22 @@ function Landing() {
               <label>
                 To
                 <div>
-                  <input
-                    type="text"
+                  <select
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
-                    list="destinations"
                     className="mt-1 p-1 w-40 border border-gray-300 rounded shadow-sm focus:outline-none focus:border-blue-500 text-slate-600"
-                  />
-                  <datalist id="destinations">
+                  >
+                    <option value="" disabled>
+                      Destination
+                    </option>
                     {[...new Set(data.map((item) => item.Destination))].map(
                       (dest, index) => (
-                        <option key={index} value={dest} />
+                        <option key={index} value={dest}>
+                          {dest}
+                        </option>
                       )
                     )}
-                  </datalist>
+                  </select>
                 </div>
               </label>
             </div>

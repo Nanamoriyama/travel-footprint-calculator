@@ -19,9 +19,18 @@ interface Result {
   amount: string;
   unit: string;
 }
+
 const Balance: React.FC = () => {
   const location = useLocation();
-  const { co2Amount: initialCo2Amount } = location.state || { co2Amount: "" };
+  const {
+    co2Amount: initialCo2Amount,
+    selectedOption,
+    distance,
+  } = location.state || {
+    co2Amount: "",
+    selectedOption: "",
+    distance: 0,
+  };
   const [co2Amount, setCo2Amount] = useState<number | string>(initialCo2Amount);
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [results, setResults] = useState<Result[]>([]);
@@ -58,51 +67,63 @@ const Balance: React.FC = () => {
   };
 
   return (
-    <div className={`p-4 ${isPageOpen ? "animate-pageOpen" : ""}`}>
-      <h2 className="text-xl font-bold mb-4">Balance Your CO2 Emissions</h2>
-      <div className="mb-4">
-        <label className="block mb-2">CO2 Amount (kg):</label>
-        <input
-          type="number"
-          value={co2Amount}
-          onChange={(e) => setCo2Amount(e.target.value)}
-          className="p-2 border border-gray-700 rounded text-gray-700"
-        />
-      </div>
-      <div className="mb-4">
-        <h3 className="font-bold mb-2">Select Activities:</h3>
-        {offsetData.map(({ activity }) => (
-          <div key={activity} className="mb-2">
-            <label className="text-lg">
-              <input
-                type="checkbox"
-                onChange={() => handleCheckboxChange(activity)}
-                className="mr-2"
-              />
-              {activity}
-            </label>
-          </div>
-        ))}
-      </div>
-      <button
-        onClick={calculateOffsets}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+    <div className="flex justify-center min-h-screen">
+      <div
+        className={`pr-4 pl-4 w-full max-w-md ${
+          isPageOpen ? "animate-pageOpen" : ""
+        }`}
       >
-        Calculate
-      </button>
-      <div className={`mt-4 ${animate ? "animate-fadeIn" : ""}`}>
-        {results.length > 0 && (
-          <div>
-            <h3 className="font-bold mb-2">Results:</h3>
-            <ul className="text-lg">
-              {results.map(({ activity, amount, unit }) => (
-                <li key={activity} className="transition duration-700">
-                  {activity}: {amount} {unit}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Let's Balance Your CO2 Emissions
+        </h2>
+        <div className="mb-4">
+          <p className="mt-3 mb-3 text-base">
+            You selected <span className="text-lg ml-2">{selectedOption}</span>
+          </p>
+          <p className="mt-3 mb-3 text-base">Distance: {distance} km</p>
+          <label className="block mb-2">CO2 Amount (kg):</label>
+          <input
+            type="number"
+            value={co2Amount}
+            onChange={(e) => setCo2Amount(e.target.value)}
+            className="p-2 border border-gray-700 rounded text-gray-700 w-full"
+          />
+        </div>
+        <div className="mb-4 mt-6">
+          <h3 className="font-bold mb-2">Select Offset Options:</h3>
+          {offsetData.map(({ activity }) => (
+            <div key={activity} className="mb-2">
+              <label className="text-lg">
+                <input
+                  type="checkbox"
+                  onChange={() => handleCheckboxChange(activity)}
+                  className="mr-2"
+                />
+                {activity}
+              </label>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={calculateOffsets}
+          className="bg-blue-500 text-white px-4 py-3 rounded w-full"
+        >
+          Calculate
+        </button>
+        <div className={`mt-4 ${animate ? "animate-fadeIn" : ""}`}>
+          {results.length > 0 && (
+            <div>
+              <h3 className="font-bold mb-2">Results:</h3>
+              <ul className="text-lg">
+                {results.map(({ activity, amount, unit }) => (
+                  <li key={activity} className="transition duration-700">
+                    {activity}: {amount} {unit}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
