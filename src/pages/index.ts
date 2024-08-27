@@ -5,3 +5,4 @@ export { default as Landing } from "./Landing";
 export { default as Result } from "./Result";
 export { default as Impact } from "./Impact";
 export { default as Balance } from "./Balance";
+export { default as AboutUs } from "./AboutUs";

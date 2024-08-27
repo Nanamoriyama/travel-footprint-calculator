@@ -1,7 +1,15 @@
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { HomeLayout, Landing, Error, Result, Impact, Balance } from "./pages";
+import {
+  HomeLayout,
+  Landing,
+  Error,
+  Result,
+  Impact,
+  Balance,
+  AboutUs,
+} from "./pages";
 import SinglePageError from "./pages/SinglePageError";
 
 const router = createBrowserRouter([
@@ -28,6 +36,11 @@ const router = createBrowserRouter([
       {
         path: "balance",
         element: <Balance />,
+        errorElement: <SinglePageError />,
+      },
+      {
+        path: "aboutus",
+        element: <AboutUs />,
         errorElement: <SinglePageError />,
       },
     ],

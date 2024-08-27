@@ -10,14 +10,12 @@ const HomeLayout = () => {
 
   return (
     <>
-      <Navbar />
+      <div className="flex justify-end">
+        <Navbar />
+      </div>
 
-      <section className="animate-fadeIn">
-        {isPageLoading ? (
-          <div>Loading...</div> // Provide some loading indicator or message
-        ) : (
-          <Outlet context={{ value }} />
-        )}
+      <section className="mt-4 animate-fadeIn">
+        {isPageLoading ? <div className="" /> : <Outlet context={{ value }} />}
       </section>
     </>
   );

@@ -73,14 +73,9 @@ function Landing() {
         isTransitioning ? "animate-pageClose" : "animate-pageOpen"
       } flex justify-center min-h-screen`}
     >
-      <section
-        className={`w-full max-w-md ${navigateTriggered ? "hidden" : ""}`}
-      >
-        <div>
-          <div className="flex justify-center text-2xl font-extralight pb-4 mr-2 ml-2 mb-8">
-            Please select the locations
-          </div>
-          <div className="flex flex-row justify-between gap-1 md:gap-4">
+      <section className="flex justify-center items-center">
+        <div className="">
+          <div className="flex flex-row justify-between gap-1">
             <div className="flex flex-col">
               <label className="mb-2">
                 From
@@ -131,7 +126,7 @@ function Landing() {
           <div className="flex flex-col items-center mt-12">
             <button
               onClick={handleSearch}
-              className="my-10 border border-stone-400 border-bold p-4 rounded items-center hover:scale-125 transition duration-300 hover:border-blue-400"
+              className="my-10 border border-stone-400 border-bold p-4 rounded items-center hover:scale-105 transition duration-300 hover:border-blue-400"
             >
               Calculate
             </button>
