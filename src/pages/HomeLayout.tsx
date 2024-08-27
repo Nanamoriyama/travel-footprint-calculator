@@ -10,11 +10,11 @@ const HomeLayout = () => {
 
   return (
     <>
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         <Navbar />
       </div>
 
-      <section className="mt-4 animate-fadeIn">
+      <section className="mt-6 animate-fadeIn">
         {isPageLoading ? <div className="" /> : <Outlet context={{ value }} />}
       </section>
     </>

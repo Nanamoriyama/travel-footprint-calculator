@@ -25,16 +25,11 @@ function Landing() {
       const timer = setTimeout(() => {
         let found = data.find(
           (item) =>
-            item["Starting point"] === start && item.Destination === destination
+            (item["Starting point"] === start &&
+              item.Destination === destination) ||
+            (item["Starting point"] === destination &&
+              item.Destination === start)
         );
-
-        if (!found) {
-          found = data.find(
-            (item) =>
-              item["Starting point"] === destination &&
-              item.Destination === start
-          );
-        }
 
         if (found) {
           const travelData: TravelData = {
@@ -73,7 +68,9 @@ function Landing() {
         isTransitioning ? "animate-pageClose" : "animate-pageOpen"
       } flex justify-center min-h-screen`}
     >
-      <section className="flex justify-center items-center">
+      <section className="flex justify-center items-center mt-[-380px]">
+        {" "}
+        {/* ここでフォームを上に配置 */}
         <div className="">
           <div className="flex flex-row justify-between gap-1">
             <div className="flex flex-col">

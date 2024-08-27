@@ -30,8 +30,8 @@ const Navbar = () => {
   }, [isOpen]);
 
   return (
-    <nav className="relative">
-      <div className="align-element flex items-center justify-between p-6 space-x-4">
+    <nav className="">
+      <div className="align-element flex items-center justify-center p-6 space-x-4">
         <div className="text-sm whitespace-nowrap md:text-lg font-bold">
           Travel Footprint Calculator
         </div>
