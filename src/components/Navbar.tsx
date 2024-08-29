@@ -10,10 +10,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  // ナビゲーションバー以外の場所をクリックしたときにメニューを閉じる
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (!(event.target as HTMLElement).closest("nav")) {
+      const target = event.target as HTMLElement;
+      if (!target.closest("nav")) {
         setIsOpen(false);
       }
     };
@@ -30,7 +30,7 @@ const Navbar = () => {
   }, [isOpen]);
 
   return (
-    <nav className="">
+    <nav className="relative z-10">
       <div className="align-element flex items-center justify-center p-6 space-x-4">
         <div className="text-sm whitespace-nowrap md:text-lg font-bold">
           Travel Footprint Calculator
@@ -52,21 +52,21 @@ const Navbar = () => {
           <Link
             to="/"
             className="block py-2 text-sm md:text-lg hover:text-gray-400 flex-grow text-center"
-            onClick={toggleMenu} // メニュー項目をクリックするとメニューが閉じるようにする
+            onClick={toggleMenu}
           >
             Route
           </Link>
           <Link
             to="/balance"
             className="block py-2 whitespace-nowrap text-sm md:text-lg hover:text-gray-400 flex-grow text-center"
-            onClick={toggleMenu} // メニュー項目をクリックするとメニューが閉じるようにする
+            onClick={toggleMenu}
           >
             CO2 Offsets
           </Link>
           <Link
             to="/aboutus"
             className="block py-2 whitespace-nowrap text-sm md:text-lg hover:text-gray-400 flex-grow text-center"
-            onClick={toggleMenu} // メニュー項目をクリックするとメニューが閉じるようにする
+            onClick={toggleMenu}
           >
             About Us
           </Link>
